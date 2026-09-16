@@ -11,6 +11,17 @@ export interface LevelCapEntry {
   badgeFlag?: number; // GBA/GB/NDS flag ID if known
 }
 
+export interface BagArchitectureInfo {
+  bagUnlockedAtStart: boolean;
+  unlockCondition?: string;
+  pocketsDescription: string;
+  pcStorageLocation: string;
+  firstMartLocation: string;
+  capCandyPocket: string;
+  repellantPocket: string;
+  portaHealPocket: string;
+}
+
 export interface GameDefinition {
   id: string;
   title: string;
@@ -22,6 +33,7 @@ export interface GameDefinition {
   expectedCrc32?: string;
   expectedSize: number; // in bytes
   levelCaps: LevelCapEntry[];
+  bagArchitectureInfo?: BagArchitectureInfo;
   zeroExpOffsets?: Array<{
     offset: number;
     original: number[];
@@ -54,6 +66,9 @@ export interface GameDefinition {
     infiniteCandies?: string;
     repellant?: string;
     portaHeal?: string;
+    directBagSlot1?: string;
+    directBagSlot2?: string;
+    directBagSlot3?: string;
   };
 }
 
@@ -74,10 +89,13 @@ export type ExpModMode = 'none' | 'zero_exp' | 'cap_cutoff';
 
 export type CandyModMode = 'none' | 'respect_cap' | 'auto_level_to_cap';
 
+export type ItemDeliveryMethod = 'pc_storage' | 'first_mart' | 'direct_cheats';
+
 export interface PatchConfig {
   expMode: ExpModMode;
   candyMode: CandyModMode;
   giveInfiniteCandies: boolean;
+  itemDeliveryMethod: ItemDeliveryMethod;
   // Refined Cap Candy Options
   capCandyStopAtNewMove: boolean; // Pause when Pokémon learns a new move during level-up
   capCandyFailIfAtCap: boolean; // Item use fails with "It won't have any effect." if already at or above cap
@@ -102,4 +120,6 @@ export interface PatchResult {
   ipsBytes: Uint8Array;
   patchedFileName: string;
   patchFileName: string;
+  bagInstructions?: string;
+  deliveryInfo?: string;
 }

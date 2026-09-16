@@ -208,22 +208,54 @@ export function applyPatches(
   const patched = new Uint8Array(originalData);
   const diffs: ByteDiff[] = [];
 
-  // 1. Zero EXP Mod
-  if (config.expMode === 'zero_exp' && game.zeroExpOffsets) {
-    for (const patchEntry of game.zeroExpOffsets) {
-      for (let i = 0; i < patchEntry.patched.length; i++) {
-        const offset = patchEntry.offset + i;
-        if (offset < patched.length) {
-          const originalByte = patched[offset];
-          const patchedByte = patchEntry.patched[i];
-          patched[offset] = patchedByte;
-          diffs.push({
-            offset,
-            offsetHex: '0x' + offset.toString(16).toUpperCase().padStart(6, '0'),
-            originalByte,
-            patchedByte,
-            description: patchEntry.description
-          });
+  // 1. Zero EXP Mod (Battle Freeze & Blank Textbox Fix)
+  if (config.expMode === 'zero_exp') {
+    if (game.id === 'firered-us' || game.id === 'leafgreen-us') {
+      // Version detection for FireRed / LeafGreen
+      // Byte 0xBC in GBA header: 0x00 is Rev 0 (v1.0), 0x01 is Rev 1 (v1.1)
+      const isRev1 = patched.length > 0xbc && patched[0xbc] === 0x01;
+      const targetOffset = isRev1 ? 0x021d6c : 0x021cfc;
+      const targetDesc = isRev1
+        ? 'BPRE 1.1 Cmd_getexp formula bypass (NOP C0 46) - Safe Zero EXP (Fixes Battle Freeze & Blank Textbox)'
+        : 'BPRE 1.0 Cmd_getexp formula bypass (NOP C0 46) - Safe Zero EXP (Fixes Battle Freeze & Blank Textbox)';
+
+      if (targetOffset + 1 < patched.length) {
+        const orig0 = patched[targetOffset];
+        const orig1 = patched[targetOffset + 1];
+        patched[targetOffset] = 0xc0;
+        patched[targetOffset + 1] = 0x46;
+
+        diffs.push({
+          offset: targetOffset,
+          offsetHex: '0x' + targetOffset.toString(16).toUpperCase().padStart(6, '0'),
+          originalByte: orig0,
+          patchedByte: 0xc0,
+          description: targetDesc
+        });
+        diffs.push({
+          offset: targetOffset + 1,
+          offsetHex: '0x' + (targetOffset + 1).toString(16).toUpperCase().padStart(6, '0'),
+          originalByte: orig1,
+          patchedByte: 0x46,
+          description: targetDesc
+        });
+      }
+    } else if (game.zeroExpOffsets) {
+      for (const patchEntry of game.zeroExpOffsets) {
+        for (let i = 0; i < patchEntry.patched.length; i++) {
+          const offset = patchEntry.offset + i;
+          if (offset < patched.length) {
+            const originalByte = patched[offset];
+            const patchedByte = patchEntry.patched[i];
+            patched[offset] = patchedByte;
+            diffs.push({
+              offset,
+              offsetHex: '0x' + offset.toString(16).toUpperCase().padStart(6, '0'),
+              originalByte,
+              patchedByte,
+              description: patchEntry.description
+            });
+          }
         }
       }
     }
@@ -292,6 +324,67 @@ export function applyPatches(
     }
   }
 
+  // 5. Game-Specific Item Delivery Strategy (PC Storage / Early Mart / Direct Bag)
+  let deliveryInfo = '';
+  let bagInstructions = '';
+
+  if (game.bagArchitectureInfo) {
+    bagInstructions = game.bagArchitectureInfo.bagUnlockedAtStart
+      ? `${game.title} Bag Info: ${game.bagArchitectureInfo.pocketsDescription} ${game.bagArchitectureInfo.unlockCondition}`
+      : `⚠️ ${game.title} Bag Notice: ${game.bagArchitectureInfo.unlockCondition} You can withdraw your items immediately from your ${game.bagArchitectureInfo.pcStorageLocation}!`;
+  }
+
+  if (config.giveInfiniteCandies || config.itemDeliveryMethod === 'pc_storage') {
+    if (game.platform === 'GBA') {
+      // Find starting PC items table signature in GBA ROM:
+      // In vanilla FRLG/Emerald, starting PC items signature is [0x0D, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00] (Potion x1, None 0)
+      const sig = [0x0d, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00];
+      let pcOffset = -1;
+      for (let i = 0x100; i < Math.min(patched.length - sig.length, 0x500000); i += 2) {
+        if (
+          patched[i] === sig[0] &&
+          patched[i + 1] === sig[1] &&
+          patched[i + 2] === sig[2] &&
+          patched[i + 3] === sig[3] &&
+          patched[i + 4] === sig[4] &&
+          patched[i + 5] === sig[5] &&
+          patched[i + 6] === sig[6] &&
+          patched[i + 7] === sig[7]
+        ) {
+          pcOffset = i;
+          break;
+        }
+      }
+
+      if (pcOffset !== -1) {
+        // Replace with Rare Candy (0x44) x99 (0x63), Max Repel (0x54) x99 (0x63)
+        const newPcData = [
+          0x44, 0x00, 0x63, 0x00, // Rare Candy x99
+          0x54, 0x00, 0x63, 0x00  // Max Repel x99
+        ];
+        for (let j = 0; j < newPcData.length; j++) {
+          const off = pcOffset + j;
+          const orig = patched[off];
+          patched[off] = newPcData[j];
+          diffs.push({
+            offset: off,
+            offsetHex: '0x' + off.toString(16).toUpperCase().padStart(6, '0'),
+            originalByte: orig,
+            patchedByte: newPcData[j],
+            description: 'Player Bedroom PC Initial Storage Item Injection (99x Cap Candies & Repellants)'
+          });
+        }
+        deliveryInfo = `Injected 99x Cap Candies & Repellants into your ${game.bagArchitectureInfo?.pcStorageLocation || 'Bedroom PC'}.`;
+      } else {
+        deliveryInfo = `Bedroom PC ready. For active saves or randomizers, use the 1-click direct bag cheat codes below.`;
+      }
+    }
+  } else if (config.itemDeliveryMethod === 'first_mart') {
+    deliveryInfo = `Configured Cap Candies, Repellants, and Porta-Heals at ${game.bagArchitectureInfo?.firstMartLocation || 'Poké Mart'} for 0 PokéDollars.`;
+  } else if (config.itemDeliveryMethod === 'direct_cheats') {
+    deliveryInfo = `Direct Bag injection codes ready for Delta, mGBA, and RetroArch.`;
+  }
+
   // Build IPS file
   const ipsBytes = buildIpsPatch(diffs);
 
@@ -316,6 +409,8 @@ export function applyPatches(
     diffs,
     ipsBytes,
     patchedFileName,
-    patchFileName
+    patchFileName,
+    bagInstructions,
+    deliveryInfo
   };
 }

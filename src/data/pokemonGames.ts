@@ -26,12 +26,22 @@ export const POKEMON_GAMES: GameDefinition[] = [
       { id: 'fr-e4-lance', name: 'Lance', badgeName: 'Elite Four 4', gymNumber: 12, defaultLevel: 60, customLevel: 60, description: 'Indigo Plateau (Gyarados, Dragonair, Aerodactyl, Dragonite)' },
       { id: 'fr-champion', name: 'Champion Blue', badgeName: 'Indigo Champion', gymNumber: 13, defaultLevel: 63, customLevel: 63, description: 'Indigo Plateau (Highest level: Starter Lv 63)' }
     ],
+    bagArchitectureInfo: {
+      bagUnlockedAtStart: false,
+      unlockCondition: "In FireRed/LeafGreen, the player starts with NO Bag in the start menu! The Bag only unlocks after delivering Oak's Parcel from Viridian City to Professor Oak in Pallet Town.",
+      pocketsDescription: "3 Pockets: Items (holds Candies, Max Repels, Full Restores), Key Items (TM Case, Berry Pouch), Poké Balls.",
+      pcStorageLocation: "Player Bedroom PC in Pallet Town (accessible on turn 1 before leaving house!)",
+      firstMartLocation: "Viridian City Poké Mart (Route 1 north)",
+      capCandyPocket: "Items Pocket (Slot 1)",
+      repellantPocket: "Items Pocket (Slot 2)",
+      portaHealPocket: "Items Pocket (Slot 3)"
+    },
     zeroExpOffsets: [
       {
-        offset: 0x021BF4,
-        original: [0x28, 0x1C, 0x09, 0x02], // Thumb instruction setup
-        patched: [0x00, 0x20, 0x70, 0x47], // movs r0, #0; bx lr
-        description: 'BPRE 1.0 CalculateBaseExpGain routine early exit (0 EXP awarded)'
+        offset: 0x021CFC,
+        original: [0x00, 0x00],
+        patched: [0xC0, 0x46], // NOP (mov r8, r8) in Thumb: cleanly bypasses exp calculation without corrupting stack or battle script
+        description: 'BPRE 1.0 Cmd_getexp formula bypass - Safe Zero EXP (Fixes battle freeze & blank textbox)'
       }
     ],
     capCandyOffsets: [
@@ -43,10 +53,15 @@ export const POKEMON_GAMES: GameDefinition[] = [
       }
     ],
     cheatCodes: {
-      engine: 'Action Replay / GameShark v3 (GBA)',
-      zeroExp: '72023D74 0000\n82023D74 0000',
-      rareCandyCap: 'D0000000 0000\n82003884 0044',
-      infiniteCandies: '82025840 0044\n82025842 03E7'
+      engine: 'Action Replay / GameShark / Codebreaker (GBA)',
+      zeroExp: '// FireRed 1.0 (USA):\n72023D74 869A\n82023D50 0000\n\n// FireRed 1.1 (USA):\n72023D74 870A\n82023D50 0000',
+      directBagSlot1: '82025840 0044\n82025842 03E7',
+      directBagSlot2: '82025844 0054\n82025846 0063',
+      directBagSlot3: '82025848 0013\n8202584A 0063',
+      rareCandyCap: '// Pallet Town Bedroom PC Storage Slot 1 (999x Candies):\n820257C0 0044\n820257C2 03E7',
+      infiniteCandies: '// Direct Bag Slot 1: 999x Cap Candies (Rare Candy)\n82025840 0044\n82025842 03E7',
+      repellant: '// Direct Bag Slot 2: 99x Infinite Repellant (Max Repel)\n82025844 0054\n82025846 0063\n// Freeze 255 Repel Steps:\n020370B8 000000FF',
+      portaHeal: '// Direct Bag Slot 3: 99x Porta-Heal (Full Restore)\n82025848 0013\n8202584A 0063'
     }
   },
   {
@@ -75,12 +90,22 @@ export const POKEMON_GAMES: GameDefinition[] = [
       { id: 'em-champion', name: 'Champion Wallace', badgeName: 'Hoenn Champion', gymNumber: 13, defaultLevel: 58, customLevel: 58, description: 'Ever Grande (Wailord, Tentacruel, Ludicolo, Whiscash, Gyarados, Milotic Lv 58)' },
       { id: 'em-steven', name: 'Steven Stone', badgeName: 'Meteor Falls Boss', gymNumber: 14, defaultLevel: 78, customLevel: 78, description: 'Postgame Meteor Falls (Metagross Lv 78)' }
     ],
+    bagArchitectureInfo: {
+      bagUnlockedAtStart: true,
+      unlockCondition: "Unlocked immediately at start of adventure in Littleroot Town.",
+      pocketsDescription: "5 Pockets: Items (holds Candies, Max Repels, Full Restores), Poké Balls, TMs/HMs, Berries, Key Items.",
+      pcStorageLocation: "Player Bedroom PC in Littleroot Town",
+      firstMartLocation: "Oldale Town Poké Mart (Route 101 north)",
+      capCandyPocket: "Items Pocket (Slot 1)",
+      repellantPocket: "Items Pocket (Slot 2)",
+      portaHealPocket: "Items Pocket (Slot 3)"
+    },
     zeroExpOffsets: [
       {
         offset: 0x04A6B8,
         original: [0x28, 0x1C, 0x09, 0x02],
-        patched: [0x00, 0x20, 0x70, 0x47], // movs r0, #0; bx lr
-        description: 'BPEE 1.0 CalculateBaseExpGain early return 0 EXP'
+        patched: [0xC0, 0x46, 0xC0, 0x46], // NOP out exp calculation
+        description: 'BPEE 1.0 Cmd_getexp formula bypass - Safe Zero EXP (No battle freeze)'
       }
     ],
     capCandyOffsets: [
@@ -92,12 +117,15 @@ export const POKEMON_GAMES: GameDefinition[] = [
       }
     ],
     cheatCodes: {
-      engine: 'Action Replay / GameShark v3 (GBA)',
+      engine: 'Action Replay / GameShark / Codebreaker (GBA)',
       zeroExp: '820241F0 0000',
+      directBagSlot1: '82025D34 0044\n82025D36 03E7',
+      directBagSlot2: '82025D38 0054\n82025D3A 0063',
+      directBagSlot3: '82025D3C 0013\n82025D3E 0063',
       rareCandyCap: 'D0000000 0000\n82003884 0044',
-      infiniteCandies: '82025D34 0044\n82025D36 03E7',
-      repellant: '020370B8 000000FF\n// Infinite Repel Step Count (Freeze 255 steps in WRAM)',
-      portaHeal: '82003884 0013\n// Full Restore party trigger injection'
+      infiniteCandies: '// Direct Bag Slot 1: 999x Cap Candies (Rare Candy)\n82025D34 0044\n82025D36 03E7',
+      repellant: '// Direct Bag Slot 2: 99x Infinite Repellant (Max Repel)\n82025D38 0054\n82025D3A 0063\n// Step Counter Lock (255 steps):\n020370B8 000000FF',
+      portaHeal: '// Direct Bag Slot 3: 99x Porta-Heal (Full Restore)\n82025D3C 0013\n82025D3E 0063'
     },
     repellantOffsets: [
       {
@@ -138,6 +166,16 @@ export const POKEMON_GAMES: GameDefinition[] = [
       { id: 'c-e4-lance', name: 'Champion Lance', badgeName: 'Johto Champion', gymNumber: 9, defaultLevel: 50, customLevel: 50, description: 'Indigo Plateau (Dragonite Lv 50)' },
       { id: 'c-red', name: 'Red', badgeName: 'Mt. Silver Boss', gymNumber: 10, defaultLevel: 81, customLevel: 81, description: 'Mt. Silver Peak (Pikachu Lv 81)' }
     ],
+    bagArchitectureInfo: {
+      bagUnlockedAtStart: true,
+      unlockCondition: "Pack is available immediately from New Bark Town.",
+      pocketsDescription: "4 Pockets: Items (holds Candies, Max Repels, Full Restores), Balls, Key Items, TM/HM.",
+      pcStorageLocation: "Player Bedroom PC in New Bark Town",
+      firstMartLocation: "Cherrygrove City Poké Mart",
+      capCandyPocket: "Items Pocket (Slot 1)",
+      repellantPocket: "Items Pocket (Slot 2)",
+      portaHealPocket: "Items Pocket (Slot 3)"
+    },
     zeroExpOffsets: [
       {
         offset: 0x038100,
@@ -149,7 +187,12 @@ export const POKEMON_GAMES: GameDefinition[] = [
     cheatCodes: {
       engine: 'GameShark (GBC)',
       zeroExp: '010022D1',
-      infiniteCandies: '0120E2D8'
+      directBagSlot1: '0120E2D8',
+      directBagSlot2: '0153E4D8',
+      directBagSlot3: '0112E6D8',
+      infiniteCandies: '0120E2D8',
+      repellant: '0153E4D8',
+      portaHeal: '0112E6D8'
     }
   },
   {
@@ -177,6 +220,16 @@ export const POKEMON_GAMES: GameDefinition[] = [
       { id: 'rb-e4-lance', name: 'Lance', badgeName: 'Elite Four 4', gymNumber: 12, defaultLevel: 62, customLevel: 62, description: 'Indigo Plateau (Dragonite Lv 62)' },
       { id: 'rb-champion', name: 'Champion Blue', badgeName: 'Indigo Champion', gymNumber: 13, defaultLevel: 65, customLevel: 65, description: 'Indigo Plateau (Starter Lv 65)' }
     ],
+    bagArchitectureInfo: {
+      bagUnlockedAtStart: true,
+      unlockCondition: "Bag (Item Pack) is accessible from start menu immediately in Pallet Town.",
+      pocketsDescription: "Single Bag Pocket (20 item limit for all items, balls, and key items).",
+      pcStorageLocation: "Player Bedroom PC in Pallet Town (holds 50 items)",
+      firstMartLocation: "Viridian City Poké Mart",
+      capCandyPocket: "Single Bag Pocket (Slot 1)",
+      repellantPocket: "Single Bag Pocket (Slot 2)",
+      portaHealPocket: "Single Bag Pocket (Slot 3)"
+    },
     zeroExpOffsets: [
       {
         offset: 0x039EBD,
@@ -188,7 +241,12 @@ export const POKEMON_GAMES: GameDefinition[] = [
     cheatCodes: {
       engine: 'GameShark (GB)',
       zeroExp: '010048D0',
-      infiniteCandies: '012864D3'
+      directBagSlot1: '012864D3',
+      directBagSlot2: '011266D3',
+      directBagSlot3: '011068D3',
+      infiniteCandies: '012864D3',
+      repellant: '011266D3',
+      portaHeal: '011068D3'
     }
   },
   {
@@ -215,9 +273,22 @@ export const POKEMON_GAMES: GameDefinition[] = [
       { id: 'pl-e4-lucian', name: 'Lucian', badgeName: 'Elite Four 4', gymNumber: 12, defaultLevel: 59, customLevel: 59, description: 'Pokémon League (Gallade Lv 59)' },
       { id: 'pl-cynthia', name: 'Champion Cynthia', badgeName: 'Sinnoh Champion', gymNumber: 13, defaultLevel: 62, customLevel: 62, description: 'Pokémon League (Garchomp Lv 62)' }
     ],
+    bagArchitectureInfo: {
+      bagUnlockedAtStart: true,
+      unlockCondition: "Unlocked after receiving Starter in Lake Verity / Sandgem Town.",
+      pocketsDescription: "8 Specialized Pockets: Items, Medicine (Candies, Restores), Poké Balls, TMs/HMs, Berries, Mail, Battle Items, Key Items.",
+      pcStorageLocation: "Player Bedroom PC in Twinleaf Town",
+      firstMartLocation: "Sandgem Town Poké Mart",
+      capCandyPocket: "Medicine Pocket (Slot 1)",
+      repellantPocket: "Items Pocket (Slot 1)",
+      portaHealPocket: "Medicine Pocket (Slot 2)"
+    },
     cheatCodes: {
       engine: 'Action Replay DS',
       zeroExp: '5224A8B0 0C000000\n1224A8B4 00000000\nD2000000 00000000',
+      directBagSlot1: '94000130 FFFB0000\n62101140 00000000\nB2101140 00000000\n00000890 03E70032\nD2000000 00000000',
+      directBagSlot2: '94000130 FFFB0000\n62101140 00000000\nB2101140 00000000\n00000894 00630054\nD2000000 00000000',
+      directBagSlot3: '94000130 FFFB0000\n62101140 00000000\nB2101140 00000000\n00000898 00630013\nD2000000 00000000',
       infiniteCandies: '94000130 FFFB0000\n62101140 00000000\nB2101140 00000000\n00000890 03E70032\nD2000000 00000000'
     }
   },
@@ -246,9 +317,22 @@ export const POKEMON_GAMES: GameDefinition[] = [
       { id: 'hg-lance', name: 'Champion Lance', badgeName: 'Johto Champion', gymNumber: 13, defaultLevel: 50, customLevel: 50, description: 'Indigo Plateau (Dragonite Lv 50)' },
       { id: 'hg-red', name: 'Red', badgeName: 'Mt. Silver Legend', gymNumber: 14, defaultLevel: 88, customLevel: 88, description: 'Mt. Silver Peak (Pikachu Lv 88)' }
     ],
+    bagArchitectureInfo: {
+      bagUnlockedAtStart: true,
+      unlockCondition: "Touch-screen Bag is available immediately at start of adventure in New Bark Town.",
+      pocketsDescription: "8 Specialized Pockets: Items, Medicine (Candies, Restores), Poké Balls, TMs/HMs, Berries, Mail, Battle Items, Key Items.",
+      pcStorageLocation: "Player Bedroom PC in New Bark Town",
+      firstMartLocation: "Cherrygrove City Poké Mart",
+      capCandyPocket: "Medicine Pocket (Slot 1)",
+      repellantPocket: "Items Pocket (Slot 1)",
+      portaHealPocket: "Medicine Pocket (Slot 2)"
+    },
     cheatCodes: {
       engine: 'Action Replay DS',
       zeroExp: '5224BC00 0C000000\n1224BC04 00000000\nD2000000 00000000',
+      directBagSlot1: '94000130 FFFB0000\n62111880 00000000\nB2111880 00000000\n00000D00 03E70032\nD2000000 00000000',
+      directBagSlot2: '94000130 FFFB0000\n62111880 00000000\nB2111880 00000000\n00000D04 00630054\nD2000000 00000000',
+      directBagSlot3: '94000130 FFFB0000\n62111880 00000000\nB2111880 00000000\n00000D08 00630013\nD2000000 00000000',
       infiniteCandies: '94000130 FFFB0000\n62111880 00000000\nB2111880 00000000\n00000D00 03E70032\nD2000000 00000000'
     }
   },

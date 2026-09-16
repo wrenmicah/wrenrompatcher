@@ -132,25 +132,50 @@ export function PatchDownload({
         </button>
       </div>
 
+      {/* Bag Architecture & Delivery Instructions Banner */}
+      {(patchResult.bagInstructions || patchResult.deliveryInfo) && (
+        <div className="p-4 rounded-xl bg-amber-50/80 border border-amber-200 text-xs text-amber-950 space-y-2">
+          <div className="flex items-center gap-2 font-bold text-amber-900">
+            <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
+            <span>Item Delivery & Bag Setup Confirmed</span>
+          </div>
+          {patchResult.deliveryInfo && (
+            <p className="font-medium text-emerald-900 bg-emerald-50/90 p-2 rounded border border-emerald-200/80">
+              📦 <strong>Item Injected:</strong> {patchResult.deliveryInfo}
+            </p>
+          )}
+          {patchResult.bagInstructions && (
+            <p className="text-zinc-700 leading-relaxed">
+              {patchResult.bagInstructions}
+            </p>
+          )}
+          {game.bagArchitectureInfo && !game.bagArchitectureInfo.bagUnlockedAtStart && (
+            <div className="text-[11px] bg-amber-100/70 p-2 rounded text-amber-900">
+              💡 <strong>Remember:</strong> Check your <strong>{game.bagArchitectureInfo.pcStorageLocation}</strong> before leaving your hometown! Once you deliver Oak's Parcel to Professor Oak, your Bag menu will open normally with all 3 pockets enabled.
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Cheats Quick Copy Drawer */}
       <div className="pt-2">
-        <div className="p-3.5 rounded-xl bg-zinc-900 text-zinc-200 text-xs font-mono flex items-center justify-between gap-3">
+        <div className="p-3.5 rounded-xl bg-zinc-900 text-zinc-200 text-xs font-mono flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-2 truncate">
             <Terminal className="w-4 h-4 text-amber-400 shrink-0" />
             <span className="truncate">
-              Zero-EXP Action Replay Cheat Code for {game.title}: <strong className="text-amber-300">{game.cheatCodes.zeroExp.replace('\n', ' ')}</strong>
+              Zero-EXP Action Replay Code ({game.title}): <strong className="text-amber-300">{game.cheatCodes.zeroExp.replace('\n', ' ')}</strong>
             </span>
           </div>
 
           <button
             type="button"
             onClick={copyCheats}
-            className="px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-100 text-xs font-sans font-medium flex items-center gap-1 shrink-0 transition-colors"
+            className="px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-100 text-xs font-sans font-medium flex items-center gap-1 shrink-0 transition-colors self-start sm:self-auto cursor-pointer"
           >
             {copiedCode ? (
               <>
                 <Check className="w-3.5 h-3.5 text-emerald-400" />
-                Copied!
+                Copied All Cheats!
               </>
             ) : (
               <>

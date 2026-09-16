@@ -95,6 +95,84 @@ export function CheatsTab() {
                 </>
               )}
 
+              {game.cheatCodes.directBagSlot1 && (
+                <>
+                  <div className="flex items-center justify-between text-zinc-400 text-[11px] pt-2 border-t border-zinc-800">
+                    <span className="text-amber-400 font-medium">Direct Bag Slot 1 (999x Cap Candies):</span>
+                    <button
+                      type="button"
+                      onClick={() => copy(game.cheatCodes.directBagSlot1!, `${game.id}-bag1`)}
+                      className="flex items-center gap-1 text-amber-400 hover:text-amber-300"
+                    >
+                      {copiedId === `${game.id}-bag1` ? (
+                        <>
+                          <Check className="w-3 h-3 text-emerald-400" />
+                          Copied!
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-3 h-3" />
+                          Copy
+                        </>
+                      )}
+                    </button>
+                  </div>
+                  <pre className="text-amber-200 font-semibold">{game.cheatCodes.directBagSlot1}</pre>
+                </>
+              )}
+
+              {game.cheatCodes.directBagSlot2 && (
+                <>
+                  <div className="flex items-center justify-between text-zinc-400 text-[11px] pt-2 border-t border-zinc-800">
+                    <span className="text-emerald-400 font-medium">Direct Bag Slot 2 (99x Repellant):</span>
+                    <button
+                      type="button"
+                      onClick={() => copy(game.cheatCodes.directBagSlot2!, `${game.id}-bag2`)}
+                      className="flex items-center gap-1 text-emerald-400 hover:text-emerald-300"
+                    >
+                      {copiedId === `${game.id}-bag2` ? (
+                        <>
+                          <Check className="w-3 h-3 text-emerald-400" />
+                          Copied!
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-3 h-3" />
+                          Copy
+                        </>
+                      )}
+                    </button>
+                  </div>
+                  <pre className="text-emerald-200 font-semibold">{game.cheatCodes.directBagSlot2}</pre>
+                </>
+              )}
+
+              {game.cheatCodes.directBagSlot3 && (
+                <>
+                  <div className="flex items-center justify-between text-zinc-400 text-[11px] pt-2 border-t border-zinc-800">
+                    <span className="text-blue-400 font-medium">Direct Bag Slot 3 (99x Porta-Heal):</span>
+                    <button
+                      type="button"
+                      onClick={() => copy(game.cheatCodes.directBagSlot3!, `${game.id}-bag3`)}
+                      className="flex items-center gap-1 text-blue-400 hover:text-blue-300"
+                    >
+                      {copiedId === `${game.id}-bag3` ? (
+                        <>
+                          <Check className="w-3 h-3 text-emerald-400" />
+                          Copied!
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-3 h-3" />
+                          Copy
+                        </>
+                      )}
+                    </button>
+                  </div>
+                  <pre className="text-blue-200 font-semibold">{game.cheatCodes.directBagSlot3}</pre>
+                </>
+              )}
+
               {game.cheatCodes.repellant && (
                 <>
                   <div className="flex items-center justify-between text-zinc-400 text-[11px] pt-2 border-t border-zinc-800">

@@ -61,10 +61,10 @@ export function PatchConfigurator({
                   Recommended for Cap Candy
                 </span>
                 <h4 className="text-sm font-semibold text-zinc-900 mt-2">
-                  Disable Battle XP (0-EXP Patch)
+                  Disable Battle XP (Safe 0-EXP Patch)
                 </h4>
                 <p className="text-xs text-zinc-600 mt-1 leading-relaxed">
-                  Completely silences EXP calculation in battle. Wild and trainer battles yield 0 EXP, preventing accidental overleveling past boss caps.
+                  Safely bypasses EXP calculation without breaking the battle loop. Eliminates the blank text box / rival battle freeze when a Pokémon faints.
                 </p>
               </div>
               <input
@@ -76,7 +76,7 @@ export function PatchConfigurator({
               />
             </div>
             <div className="mt-3 text-[11px] font-mono text-zinc-500 bg-zinc-100/80 px-2 py-1 rounded">
-              Instruction: <code className="text-amber-800 font-semibold">movs r0, #0; bx lr</code> @ CalculateBaseExpGain
+              Bypass: <code className="text-amber-800 font-semibold">NOP (C0 46)</code> @ Cmd_getexp formula (No Battle Freeze)
             </div>
           </div>
 
@@ -322,14 +322,14 @@ export function PatchConfigurator({
             <div>
               <div className="flex items-center gap-2">
                 <h4 className="text-sm font-semibold text-zinc-900">
-                  Include Infinite Candies in PC Item Storage (No-Grind Setup)
+                  Include Infinite Candies in Item Delivery (No-Grind Setup)
                 </h4>
                 <span className="text-[10px] uppercase font-bold px-1.5 py-0.2 rounded bg-amber-200 text-amber-900">
                   Nuzlocke Standard
                 </span>
               </div>
               <p className="text-xs text-zinc-600 mt-1">
-                Injects 999 Rare / Cap Candies into PC Storage so you never have to waste hours wild grinding or running speedup scripts.
+                Ensures 999 Rare / Cap Candies are available right away so you never have to waste hours wild grinding or running speedup scripts.
               </p>
             </div>
           </div>
@@ -343,6 +343,119 @@ export function PatchConfigurator({
             />
             <div className="w-11 h-6 bg-zinc-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-600"></div>
           </label>
+        </div>
+      </div>
+
+      {/* Feature 5: Game-Specific Item Delivery Method & Bag Architecture */}
+      <div className="pt-4 border-t border-zinc-100 space-y-3">
+        <div className="flex items-center justify-between">
+          <label className="text-sm font-semibold text-zinc-900 flex items-center gap-2">
+            <Package className="w-4 h-4 text-amber-600" />
+            Game Item Delivery & Bag Architecture Method
+          </label>
+          <span className="text-[11px] font-mono text-zinc-500 bg-zinc-100 px-2 py-0.5 rounded">
+            {game.platform} Item System
+          </span>
+        </div>
+
+        {game.bagArchitectureInfo && (
+          <div className="p-3.5 rounded-xl border border-amber-200 bg-amber-50/70 text-xs text-amber-900 space-y-1.5">
+            <div className="flex items-center gap-2 font-bold text-amber-950">
+              <Info className="w-4 h-4 text-amber-700 shrink-0" />
+              <span>{game.title} Bag Architecture Notice</span>
+            </div>
+            <p className="leading-relaxed">
+              {game.bagArchitectureInfo.unlockCondition}
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 font-mono text-[11px]">
+              <div className="bg-amber-100/60 p-2 rounded">
+                <strong>Pockets:</strong> {game.bagArchitectureInfo.pocketsDescription}
+              </div>
+              <div className="bg-amber-100/60 p-2 rounded">
+                <strong>Turn 1 PC:</strong> {game.bagArchitectureInfo.pcStorageLocation}
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          {/* PC Storage Delivery */}
+          <div
+            onClick={() => onChangeConfig({ ...config, itemDeliveryMethod: 'pc_storage' })}
+            className={`cursor-pointer rounded-xl border p-3.5 transition-all ${
+              config.itemDeliveryMethod === 'pc_storage'
+                ? 'border-amber-500 bg-amber-50/40 ring-1 ring-amber-500/30'
+                : 'border-zinc-200 hover:border-zinc-300 bg-white'
+            }`}
+          >
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-xs font-semibold text-zinc-900">
+                Bedroom PC Storage
+              </span>
+              <input
+                type="radio"
+                name="itemDeliveryMethod"
+                checked={config.itemDeliveryMethod === 'pc_storage'}
+                onChange={() => {}}
+                className="text-amber-600 focus:ring-amber-500"
+              />
+            </div>
+            <p className="text-xs text-zinc-600 leading-relaxed">
+              Injects items into player bedroom PC item storage on Turn 1 before leaving the starting house.
+            </p>
+          </div>
+
+          {/* First Mart Stocking */}
+          <div
+            onClick={() => onChangeConfig({ ...config, itemDeliveryMethod: 'first_mart' })}
+            className={`cursor-pointer rounded-xl border p-3.5 transition-all ${
+              config.itemDeliveryMethod === 'first_mart'
+                ? 'border-amber-500 bg-amber-50/40 ring-1 ring-amber-500/30'
+                : 'border-zinc-200 hover:border-zinc-300 bg-white'
+            }`}
+          >
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-xs font-semibold text-zinc-900">
+                Free Early Mart (0₽)
+              </span>
+              <input
+                type="radio"
+                name="itemDeliveryMethod"
+                checked={config.itemDeliveryMethod === 'first_mart'}
+                onChange={() => {}}
+                className="text-amber-600 focus:ring-amber-500"
+              />
+            </div>
+            <p className="text-xs text-zinc-600 leading-relaxed">
+              Available at the first Poké Mart ({game.bagArchitectureInfo?.firstMartLocation || 'Poké Mart'}) for 0 PokéDollars.
+            </p>
+          </div>
+
+          {/* Direct Bag Memory Cheats */}
+          <div
+            onClick={() => onChangeConfig({ ...config, itemDeliveryMethod: 'direct_cheats' })}
+            className={`cursor-pointer rounded-xl border p-3.5 transition-all ${
+              config.itemDeliveryMethod === 'direct_cheats'
+                ? 'border-amber-500 bg-amber-50/40 ring-1 ring-amber-500/30'
+                : 'border-zinc-200 hover:border-zinc-300 bg-white'
+            }`}
+          >
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-xs font-semibold text-zinc-900">
+                Direct Bag Cheats
+              </span>
+              <input
+                type="radio"
+                name="itemDeliveryMethod"
+                checked={config.itemDeliveryMethod === 'direct_cheats'}
+                onChange={() => {}}
+                className="text-amber-600 focus:ring-amber-500"
+              />
+            </div>
+            <p className="text-xs text-zinc-600 leading-relaxed">
+              Injects directly into Bag Slots 1, 2, and 3 via 1-click Action Replay codes in Delta or mGBA.
+            </p>
+          </div>
         </div>
       </div>
 

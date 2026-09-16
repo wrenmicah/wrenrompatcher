@@ -26,27 +26,30 @@ export const ARCHITECTURE_OPTIONS: ArchitectureOption[] = [
       'Works immediately on standard 16MB/32MB clean ROM dumps (.gba/.gbc)',
       'Generates standard .ips and .bps patch files shareable with other players',
       'No complex Linux or devkitARM compilation environment required',
-      '0-EXP patch is 100% reliable and only requires modifying 4 bytes (`movs r0, #0; bx lr`)'
+      'Safe 0-EXP NOP formula bypass prevents blank textbox & battle freeze issues when fainted'
     ],
     cons: [
       'Adding dynamic complex item logic (like Cap Candy checking 8 badges) requires locating free space and repointing item effect tables in binary',
       'Different ROM revisions (v1.0 vs v1.1 vs EU/JP) have different memory offsets'
     ],
     implementationGuide:
-      'In Gen 3 (FireRed BPRE 1.0 & Emerald BPEE 1.0), the game calculates earned EXP in the `CalculateBaseExpGain` routine. By replacing the entry instructions at offset 0x021BF4 (FireRed) or 0x04A6B8 (Emerald) with `0x00 0x20 0x70 0x47` (`movs r0, #0` + `bx lr`), the routine instantly returns 0 before awarding experience points to any active party members.',
+      'In Gen 3 (FireRed BPRE and Emerald BPEE), replacing the battle script routine with an immediate `bx lr` causes a blank text box freeze because the battle engine expects an experience calculation output for the message box. By instead patching the Cmd_getexp formula with a Thumb NOP instruction (`0xC0 0x46` / `mov r8, r8`) at offset 0x021CFC (FireRed 1.0) or 0x021D6C (FireRed 1.1), the battle engine cleanly awards 0 EXP without corrupting the message stack.\n\nBag Architecture Consideration: FireRed & LeafGreen do not have an active Bag menu in the Start Menu at game start (it is only unlocked after delivering Oak\'s Parcel from Viridian City to Oak in Pallet Town). Therefore, items (Cap Candies, Repellants, and Porta-Heals) are placed in the Player\'s Bedroom PC on Turn 1 or injected via direct Bag Slot memory codes.',
     codeSnippet: {
       language: 'armasm',
-      fileName: 'zero_exp_hook.s (ARM Thumb)',
-      code: `// FireRed BPRE v1.0 @ 0x08021BF4
+      fileName: 'cmd_getexp_bypass.s (ARM Thumb)',
+      code: `// FireRed BPRE v1.0 @ 0x08021CFC (Rev 1.1 @ 0x08021D6C)
 // Emerald BPEE v1.0 @ 0x0804A6B8
 .thumb
 .align 2
 
-CalculateBaseExpGain_Override:
-    movs    r0, #0       @ Set earned EXP to 0
-    bx      lr           @ Return immediately to caller
+// Cmd_getexp formula bypass:
+// Instead of an early bx lr which breaks battle script textboxes,
+// NOP the exp accumulation formula so earned exp resolves to 0.
+Cmd_GetExp_Bypass:
+    mov     r8, r8       // Opcode: C0 46 (NOP in Thumb)
+    // Battle loop proceeds normally and safely awards 0 EXP!
 
-// Machine Code Bytes: 00 20 70 47`
+// Machine Code Bytes: C0 46`
     }
   },
   {
