@@ -1,0 +1,6 @@
+{
+  "name": "Pokemon ROM Patcher",
+  "description": "In-browser Pokémon ROM patcher to disable XP gain, enforce dynamic gym level caps, and configure Cap Candies for clean game dumps.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
