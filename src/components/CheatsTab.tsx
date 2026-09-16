@@ -21,8 +21,21 @@ export function CheatsTab() {
           </h2>
         </div>
         <p className="text-xs text-zinc-500 mt-1 max-w-3xl leading-relaxed">
-          Zero-risk memory freeze codes. Apply these directly inside mGBA, Delta, RetroArch, or DeSmuME to disable battle EXP and gain candies without altering your base ROM dump file.
+          Zero-risk memory freeze codes. Apply these directly inside mGBA, Delta, RetroArch, or DeSmuME to disable battle EXP and gain 1x Reusable Key Items without altering your base ROM dump file.
         </p>
+      </div>
+
+      {/* Key Item Architecture Banner */}
+      <div className="p-3.5 rounded-xl bg-amber-50/80 border border-amber-200/90 text-xs text-amber-950 flex items-start gap-2.5">
+        <HelpCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+        <div className="space-y-1 leading-relaxed">
+          <span className="font-semibold text-amber-900 block">
+            Key Item Mechanics (Single Quantity, Non-Depleting)
+          </span>
+          <p className="text-zinc-700">
+            Unlike standard consumable medicine, these QoL items are delivered as <strong>1x reusable Key Items</strong> (quantity = 1). Using them never reduces your inventory count, so you have infinite, non-cluttering access throughout your entire run.
+          </p>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -72,7 +85,7 @@ export function CheatsTab() {
               {game.cheatCodes.infiniteCandies && (
                 <>
                   <div className="flex items-center justify-between text-zinc-400 text-[11px] pt-2 border-t border-zinc-800">
-                    <span>999 Candies in PC Storage:</span>
+                    <span>1x Reusable Cap Candy (Key Item - Never Consumed):</span>
                     <button
                       type="button"
                       onClick={() => copy(game.cheatCodes.infiniteCandies!, `${game.id}-candies`)}
@@ -98,7 +111,7 @@ export function CheatsTab() {
               {game.cheatCodes.directBagSlot1 && (
                 <>
                   <div className="flex items-center justify-between text-zinc-400 text-[11px] pt-2 border-t border-zinc-800">
-                    <span className="text-amber-400 font-medium">Direct Bag Slot 1 (999x Cap Candies):</span>
+                    <span className="text-amber-400 font-medium">Direct Bag Slot 1 (1x Reusable Cap Candy):</span>
                     <button
                       type="button"
                       onClick={() => copy(game.cheatCodes.directBagSlot1!, `${game.id}-bag1`)}
@@ -124,7 +137,7 @@ export function CheatsTab() {
               {game.cheatCodes.directBagSlot2 && (
                 <>
                   <div className="flex items-center justify-between text-zinc-400 text-[11px] pt-2 border-t border-zinc-800">
-                    <span className="text-emerald-400 font-medium">Direct Bag Slot 2 (99x Repellant):</span>
+                    <span className="text-emerald-400 font-medium">Direct Bag Slot 2 (1x Reusable Repellant):</span>
                     <button
                       type="button"
                       onClick={() => copy(game.cheatCodes.directBagSlot2!, `${game.id}-bag2`)}
@@ -150,7 +163,7 @@ export function CheatsTab() {
               {game.cheatCodes.directBagSlot3 && (
                 <>
                   <div className="flex items-center justify-between text-zinc-400 text-[11px] pt-2 border-t border-zinc-800">
-                    <span className="text-blue-400 font-medium">Direct Bag Slot 3 (99x Porta-Heal):</span>
+                    <span className="text-blue-400 font-medium">Direct Bag Slot 3 (1x Reusable Porta-Heal):</span>
                     <button
                       type="button"
                       onClick={() => copy(game.cheatCodes.directBagSlot3!, `${game.id}-bag3`)}
@@ -176,7 +189,7 @@ export function CheatsTab() {
               {game.cheatCodes.repellant && (
                 <>
                   <div className="flex items-center justify-between text-zinc-400 text-[11px] pt-2 border-t border-zinc-800">
-                    <span>"Repellant" Toggle (No Wild Encounters):</span>
+                    <span>"Repellant" Key Item Toggle (No Wild Encounters):</span>
                     <button
                       type="button"
                       onClick={() => copy(game.cheatCodes.repellant!, `${game.id}-repel`)}
@@ -202,7 +215,7 @@ export function CheatsTab() {
               {game.cheatCodes.portaHeal && (
                 <>
                   <div className="flex items-center justify-between text-zinc-400 text-[11px] pt-2 border-t border-zinc-800">
-                    <span>"Porta Heal" (Party Full Restore):</span>
+                    <span>"Porta Heal" Key Item (Party Full Restore):</span>
                     <button
                       type="button"
                       onClick={() => copy(game.cheatCodes.portaHeal!, `${game.id}-porta`)}

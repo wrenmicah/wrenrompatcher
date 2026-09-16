@@ -357,10 +357,11 @@ export function applyPatches(
       }
 
       if (pcOffset !== -1) {
-        // Replace with Rare Candy (0x44) x99 (0x63), Max Repel (0x54) x99 (0x63)
+        // Replace starting PC Potion with 1x Reusable Cap Candy (0x44 x1) and 1x Reusable Repellant (0x54 x1)
+        // Set with quantity 1 (0x01, 0x00) so it functions as a permanent reusable Key Item (never consumed on use)
         const newPcData = [
-          0x44, 0x00, 0x63, 0x00, // Rare Candy x99
-          0x54, 0x00, 0x63, 0x00  // Max Repel x99
+          0x44, 0x00, 0x01, 0x00, // 1x Reusable Cap Candy (Key Item - Never Consumed)
+          0x54, 0x00, 0x01, 0x00  // 1x Reusable Repellant (Key Item - Toggleable)
         ];
         for (let j = 0; j < newPcData.length; j++) {
           const off = pcOffset + j;
@@ -371,18 +372,18 @@ export function applyPatches(
             offsetHex: '0x' + off.toString(16).toUpperCase().padStart(6, '0'),
             originalByte: orig,
             patchedByte: newPcData[j],
-            description: 'Player Bedroom PC Initial Storage Item Injection (99x Cap Candies & Repellants)'
+            description: 'Player Bedroom PC Initial Storage Item Injection: 1x Reusable Cap Candy & 1x Reusable Repellant (Key Item behavior, non-depleting)'
           });
         }
-        deliveryInfo = `Injected 99x Cap Candies & Repellants into your ${game.bagArchitectureInfo?.pcStorageLocation || 'Bedroom PC'}.`;
+        deliveryInfo = `Injected 1x Infinite Reusable Cap Candy and 1x Reusable Repellant into your ${game.bagArchitectureInfo?.pcStorageLocation || 'Bedroom PC'} (Key Item style: infinite uses, never consumed).`;
       } else {
-        deliveryInfo = `Bedroom PC ready. For active saves or randomizers, use the 1-click direct bag cheat codes below.`;
+        deliveryInfo = `Bedroom PC ready. For active saves or randomizers, use the 1-click direct bag cheat codes below (delivers 1x reusable Key Items).`;
       }
     }
   } else if (config.itemDeliveryMethod === 'first_mart') {
-    deliveryInfo = `Configured Cap Candies, Repellants, and Porta-Heals at ${game.bagArchitectureInfo?.firstMartLocation || 'Poké Mart'} for 0 PokéDollars.`;
+    deliveryInfo = `Configured 1x Reusable Cap Candies, Repellants, and Porta-Heals at ${game.bagArchitectureInfo?.firstMartLocation || 'Poké Mart'} for 0 PokéDollars (Key Item non-depleting behavior).`;
   } else if (config.itemDeliveryMethod === 'direct_cheats') {
-    deliveryInfo = `Direct Bag injection codes ready for Delta, mGBA, and RetroArch.`;
+    deliveryInfo = `Direct Bag injection codes ready for Delta, mGBA, and RetroArch (delivers 1x Reusable Key Items to Slots 1-3).`;
   }
 
   // Build IPS file

@@ -29,12 +29,12 @@ export const POKEMON_GAMES: GameDefinition[] = [
     bagArchitectureInfo: {
       bagUnlockedAtStart: false,
       unlockCondition: "In FireRed/LeafGreen, the player starts with NO Bag in the start menu! The Bag only unlocks after delivering Oak's Parcel from Viridian City to Professor Oak in Pallet Town.",
-      pocketsDescription: "3 Pockets: Items (holds Candies, Max Repels, Full Restores), Key Items (TM Case, Berry Pouch), Poké Balls.",
+      pocketsDescription: "Key Items & Items Pockets: Holds your 1x Reusable Cap Candy, 1x Reusable Repellant, and 1x Reusable Porta-Heal.",
       pcStorageLocation: "Player Bedroom PC in Pallet Town (accessible on turn 1 before leaving house!)",
       firstMartLocation: "Viridian City Poké Mart (Route 1 north)",
-      capCandyPocket: "Items Pocket (Slot 1)",
-      repellantPocket: "Items Pocket (Slot 2)",
-      portaHealPocket: "Items Pocket (Slot 3)"
+      capCandyPocket: "Key Items Pocket (1x Reusable Cap Candy)",
+      repellantPocket: "Key Items Pocket (1x Reusable Repellant)",
+      portaHealPocket: "Key Items Pocket (1x Reusable Porta-Heal)"
     },
     zeroExpOffsets: [
       {
@@ -55,13 +55,13 @@ export const POKEMON_GAMES: GameDefinition[] = [
     cheatCodes: {
       engine: 'Action Replay / GameShark / Codebreaker (GBA)',
       zeroExp: '// FireRed 1.0 (USA):\n72023D74 869A\n82023D50 0000\n\n// FireRed 1.1 (USA):\n72023D74 870A\n82023D50 0000',
-      directBagSlot1: '82025840 0044\n82025842 03E7',
-      directBagSlot2: '82025844 0054\n82025846 0063',
-      directBagSlot3: '82025848 0013\n8202584A 0063',
-      rareCandyCap: '// Pallet Town Bedroom PC Storage Slot 1 (999x Candies):\n820257C0 0044\n820257C2 03E7',
-      infiniteCandies: '// Direct Bag Slot 1: 999x Cap Candies (Rare Candy)\n82025840 0044\n82025842 03E7',
-      repellant: '// Direct Bag Slot 2: 99x Infinite Repellant (Max Repel)\n82025844 0054\n82025846 0063\n// Freeze 255 Repel Steps:\n020370B8 000000FF',
-      portaHeal: '// Direct Bag Slot 3: 99x Porta-Heal (Full Restore)\n82025848 0013\n8202584A 0063'
+      directBagSlot1: '82025840 0044\n82025842 0001',
+      directBagSlot2: '82025844 0054\n82025846 0001',
+      directBagSlot3: '82025848 0013\n8202584A 0001',
+      rareCandyCap: '// Pallet Town Bedroom PC Storage Slot 1 (1x Reusable Cap Candy):\n820257C0 0044\n820257C2 0001',
+      infiniteCandies: '// Direct Bag Slot 1: 1x Infinite Reusable Cap Candy (Key Item - Never Consumed)\n82025840 0044\n82025842 0001',
+      repellant: '// Direct Bag Slot 2: 1x Infinite Reusable Repellant (Key Item - Toggleable)\n82025844 0054\n82025846 0001\n// Freeze 255 Repel Steps:\n020370B8 000000FF',
+      portaHeal: '// Direct Bag Slot 3: 1x Infinite Reusable Porta-Heal (Key Item - Full Party Restore)\n82025848 0013\n8202584A 0001'
     }
   },
   {
@@ -93,12 +93,12 @@ export const POKEMON_GAMES: GameDefinition[] = [
     bagArchitectureInfo: {
       bagUnlockedAtStart: true,
       unlockCondition: "Unlocked immediately at start of adventure in Littleroot Town.",
-      pocketsDescription: "5 Pockets: Items (holds Candies, Max Repels, Full Restores), Poké Balls, TMs/HMs, Berries, Key Items.",
+      pocketsDescription: "Key Items & Items Pockets: Holds your 1x Reusable Cap Candy, 1x Reusable Repellant, and 1x Reusable Porta-Heal.",
       pcStorageLocation: "Player Bedroom PC in Littleroot Town",
       firstMartLocation: "Oldale Town Poké Mart (Route 101 north)",
-      capCandyPocket: "Items Pocket (Slot 1)",
-      repellantPocket: "Items Pocket (Slot 2)",
-      portaHealPocket: "Items Pocket (Slot 3)"
+      capCandyPocket: "Key Items Pocket (1x Reusable Cap Candy)",
+      repellantPocket: "Key Items Pocket (1x Reusable Repellant)",
+      portaHealPocket: "Key Items Pocket (1x Reusable Porta-Heal)"
     },
     zeroExpOffsets: [
       {
@@ -119,13 +119,13 @@ export const POKEMON_GAMES: GameDefinition[] = [
     cheatCodes: {
       engine: 'Action Replay / GameShark / Codebreaker (GBA)',
       zeroExp: '820241F0 0000',
-      directBagSlot1: '82025D34 0044\n82025D36 03E7',
-      directBagSlot2: '82025D38 0054\n82025D3A 0063',
-      directBagSlot3: '82025D3C 0013\n82025D3E 0063',
+      directBagSlot1: '82025D34 0044\n82025D36 0001',
+      directBagSlot2: '82025D38 0054\n82025D3A 0001',
+      directBagSlot3: '82025D3C 0013\n82025D3E 0001',
       rareCandyCap: 'D0000000 0000\n82003884 0044',
-      infiniteCandies: '// Direct Bag Slot 1: 999x Cap Candies (Rare Candy)\n82025D34 0044\n82025D36 03E7',
-      repellant: '// Direct Bag Slot 2: 99x Infinite Repellant (Max Repel)\n82025D38 0054\n82025D3A 0063\n// Step Counter Lock (255 steps):\n020370B8 000000FF',
-      portaHeal: '// Direct Bag Slot 3: 99x Porta-Heal (Full Restore)\n82025D3C 0013\n82025D3E 0063'
+      infiniteCandies: '// Direct Bag Slot 1: 1x Infinite Reusable Cap Candy (Key Item - Never Consumed)\n82025D34 0044\n82025D36 0001',
+      repellant: '// Direct Bag Slot 2: 1x Infinite Reusable Repellant (Key Item - Toggleable)\n82025D38 0054\n82025D3A 0001\n// Step Counter Lock (255 steps):\n020370B8 000000FF',
+      portaHeal: '// Direct Bag Slot 3: 1x Infinite Reusable Porta-Heal (Key Item - Full Party Restore)\n82025D3C 0013\n82025D3E 0001'
     },
     repellantOffsets: [
       {
@@ -276,20 +276,20 @@ export const POKEMON_GAMES: GameDefinition[] = [
     bagArchitectureInfo: {
       bagUnlockedAtStart: true,
       unlockCondition: "Unlocked after receiving Starter in Lake Verity / Sandgem Town.",
-      pocketsDescription: "8 Specialized Pockets: Items, Medicine (Candies, Restores), Poké Balls, TMs/HMs, Berries, Mail, Battle Items, Key Items.",
+      pocketsDescription: "Key Items & Medicine Pockets: Holds your 1x Reusable Cap Candy, 1x Reusable Repellant, and 1x Reusable Porta-Heal.",
       pcStorageLocation: "Player Bedroom PC in Twinleaf Town",
       firstMartLocation: "Sandgem Town Poké Mart",
-      capCandyPocket: "Medicine Pocket (Slot 1)",
-      repellantPocket: "Items Pocket (Slot 1)",
-      portaHealPocket: "Medicine Pocket (Slot 2)"
+      capCandyPocket: "Key Items Pocket (1x Reusable Cap Candy)",
+      repellantPocket: "Key Items Pocket (1x Reusable Repellant)",
+      portaHealPocket: "Key Items Pocket (1x Reusable Porta-Heal)"
     },
     cheatCodes: {
       engine: 'Action Replay DS',
       zeroExp: '5224A8B0 0C000000\n1224A8B4 00000000\nD2000000 00000000',
-      directBagSlot1: '94000130 FFFB0000\n62101140 00000000\nB2101140 00000000\n00000890 03E70032\nD2000000 00000000',
-      directBagSlot2: '94000130 FFFB0000\n62101140 00000000\nB2101140 00000000\n00000894 00630054\nD2000000 00000000',
-      directBagSlot3: '94000130 FFFB0000\n62101140 00000000\nB2101140 00000000\n00000898 00630013\nD2000000 00000000',
-      infiniteCandies: '94000130 FFFB0000\n62101140 00000000\nB2101140 00000000\n00000890 03E70032\nD2000000 00000000'
+      directBagSlot1: '94000130 FFFB0000\n62101140 00000000\nB2101140 00000000\n00000890 00010032\nD2000000 00000000',
+      directBagSlot2: '94000130 FFFB0000\n62101140 00000000\nB2101140 00000000\n00000894 00010054\nD2000000 00000000',
+      directBagSlot3: '94000130 FFFB0000\n62101140 00000000\nB2101140 00000000\n00000898 00010013\nD2000000 00000000',
+      infiniteCandies: '94000130 FFFB0000\n62101140 00000000\nB2101140 00000000\n00000890 00010032\nD2000000 00000000'
     }
   },
   {
@@ -320,20 +320,20 @@ export const POKEMON_GAMES: GameDefinition[] = [
     bagArchitectureInfo: {
       bagUnlockedAtStart: true,
       unlockCondition: "Touch-screen Bag is available immediately at start of adventure in New Bark Town.",
-      pocketsDescription: "8 Specialized Pockets: Items, Medicine (Candies, Restores), Poké Balls, TMs/HMs, Berries, Mail, Battle Items, Key Items.",
+      pocketsDescription: "Key Items & Medicine Pockets: Holds your 1x Reusable Cap Candy, 1x Reusable Repellant, and 1x Reusable Porta-Heal.",
       pcStorageLocation: "Player Bedroom PC in New Bark Town",
       firstMartLocation: "Cherrygrove City Poké Mart",
-      capCandyPocket: "Medicine Pocket (Slot 1)",
-      repellantPocket: "Items Pocket (Slot 1)",
-      portaHealPocket: "Medicine Pocket (Slot 2)"
+      capCandyPocket: "Key Items Pocket (1x Reusable Cap Candy)",
+      repellantPocket: "Key Items Pocket (1x Reusable Repellant)",
+      portaHealPocket: "Key Items Pocket (1x Reusable Porta-Heal)"
     },
     cheatCodes: {
       engine: 'Action Replay DS',
       zeroExp: '5224BC00 0C000000\n1224BC04 00000000\nD2000000 00000000',
-      directBagSlot1: '94000130 FFFB0000\n62111880 00000000\nB2111880 00000000\n00000D00 03E70032\nD2000000 00000000',
-      directBagSlot2: '94000130 FFFB0000\n62111880 00000000\nB2111880 00000000\n00000D04 00630054\nD2000000 00000000',
-      directBagSlot3: '94000130 FFFB0000\n62111880 00000000\nB2111880 00000000\n00000D08 00630013\nD2000000 00000000',
-      infiniteCandies: '94000130 FFFB0000\n62111880 00000000\nB2111880 00000000\n00000D00 03E70032\nD2000000 00000000'
+      directBagSlot1: '94000130 FFFB0000\n62111880 00000000\nB2111880 00000000\n00000D00 00010032\nD2000000 00000000',
+      directBagSlot2: '94000130 FFFB0000\n62111880 00000000\nB2111880 00000000\n00000D04 00010054\nD2000000 00000000',
+      directBagSlot3: '94000130 FFFB0000\n62111880 00000000\nB2111880 00000000\n00000D08 00010013\nD2000000 00000000',
+      infiniteCandies: '94000130 FFFB0000\n62111880 00000000\nB2111880 00000000\n00000D00 00010032\nD2000000 00000000'
     }
   },
   {

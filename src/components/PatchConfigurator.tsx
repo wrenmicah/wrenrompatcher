@@ -254,7 +254,7 @@ export function PatchConfigurator({
       <div className="space-y-3 pt-4 border-t border-zinc-100">
         <label className="text-sm font-semibold text-zinc-900 flex items-center gap-2">
           <Package className="w-4 h-4 text-amber-600" />
-          Custom Quality-of-Life Items (Emerald & Portable Suite)
+          Custom Quality-of-Life Items (Reusable Key Item Mechanics)
         </label>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -263,14 +263,14 @@ export function PatchConfigurator({
             <div className="pr-2">
               <div className="flex items-center gap-1.5">
                 <span className="text-xs font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 uppercase tracking-wider">
-                  Key Item
+                  Reusable Key Item
                 </span>
                 <h4 className="text-sm font-semibold text-zinc-900">
-                  "Repellant" (Infinite Toggle Repel)
+                  "Repellant" (Infinite Toggle Key Item)
                 </h4>
               </div>
               <p className="text-xs text-zinc-600 mt-1.5 leading-relaxed">
-                Adds a toggleable Key Item. When turned ON, completely eliminates wild Pokémon encounters without consuming items or expiring by steps.
+                Functions like an on/off Key Item switch. You receive 1 item that toggles wild Pokémon encounters without expiring by steps or ever reducing in quantity.
               </p>
             </div>
             <label className="relative inline-flex items-center cursor-pointer shrink-0 mt-1">
@@ -289,14 +289,14 @@ export function PatchConfigurator({
             <div className="pr-2">
               <div className="flex items-center gap-1.5">
                 <span className="text-xs font-bold px-2 py-0.5 rounded bg-blue-100 text-blue-800 uppercase tracking-wider">
-                  Party Restorative
+                  Reusable Key Item
                 </span>
                 <h4 className="text-sm font-semibold text-zinc-900">
-                  "Porta Heal" (Field Center)
+                  "Porta Heal" (Field Center Key Item)
                 </h4>
               </div>
               <p className="text-xs text-zinc-600 mt-1.5 leading-relaxed">
-                Adds a reusable field item that completely restores full HP, PP, and cures all status ailments across all Pokémon in your party anywhere.
+                Functions like a portable Pokémon Center Key Item. You receive 1 reusable item that restores full HP, PP, and cures status conditions for your entire party without being consumed.
               </p>
             </div>
             <label className="relative inline-flex items-center cursor-pointer shrink-0 mt-1">
@@ -312,7 +312,7 @@ export function PatchConfigurator({
         </div>
       </div>
 
-      {/* Feature 4: Infinite Candies Convenience */}
+      {/* Feature 4: Infinite Reusable Key Items Convenience */}
       <div className="pt-4 border-t border-zinc-100">
         <div className="flex items-start justify-between p-4 rounded-xl bg-zinc-50 border border-zinc-200">
           <div className="flex items-start gap-3">
@@ -322,14 +322,14 @@ export function PatchConfigurator({
             <div>
               <div className="flex items-center gap-2">
                 <h4 className="text-sm font-semibold text-zinc-900">
-                  Include Infinite Candies in Item Delivery (No-Grind Setup)
+                  Provide 1x Infinite Reusable Cap Candy & Repellant (Key Item Mode)
                 </h4>
                 <span className="text-[10px] uppercase font-bold px-1.5 py-0.2 rounded bg-amber-200 text-amber-900">
-                  Nuzlocke Standard
+                  Key Item Standard
                 </span>
               </div>
               <p className="text-xs text-zinc-600 mt-1">
-                Ensures 999 Rare / Cap Candies are available right away so you never have to waste hours wild grinding or running speedup scripts.
+                Delivers 1x permanent Cap Candy and 1x Repellant. Like Key Items, you only ever carry one copy, and using them never depletes or decreases the count.
               </p>
             </div>
           </div>
@@ -401,7 +401,7 @@ export function PatchConfigurator({
               />
             </div>
             <p className="text-xs text-zinc-600 leading-relaxed">
-              Injects items into player bedroom PC item storage on Turn 1 before leaving the starting house.
+              Injects 1x Reusable Cap Candy and 1x Reusable Repellant (Key Item style) into bedroom PC storage on Turn 1 before leaving the starting house.
             </p>
           </div>
 
@@ -427,7 +427,7 @@ export function PatchConfigurator({
               />
             </div>
             <p className="text-xs text-zinc-600 leading-relaxed">
-              Available at the first Poké Mart ({game.bagArchitectureInfo?.firstMartLocation || 'Poké Mart'}) for 0 PokéDollars.
+              Available as 1x Reusable Key Items at the first Poké Mart ({game.bagArchitectureInfo?.firstMartLocation || 'Poké Mart'}) for 0 PokéDollars.
             </p>
           </div>
 
@@ -453,7 +453,7 @@ export function PatchConfigurator({
               />
             </div>
             <p className="text-xs text-zinc-600 leading-relaxed">
-              Injects directly into Bag Slots 1, 2, and 3 via 1-click Action Replay codes in Delta or mGBA.
+              Injects 1x Reusable Key Items directly into Bag Slots 1, 2, and 3 via 1-click Action Replay codes in Delta or mGBA.
             </p>
           </div>
         </div>

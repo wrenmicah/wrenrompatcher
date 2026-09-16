@@ -40,12 +40,12 @@ export function PatchDownload({
   };
 
   const copyCheats = () => {
-    let text = `// ${game.title} Cheats\n// Zero EXP Gain:\n${game.cheatCodes.zeroExp}\n\n// 999 Candies:\n${game.cheatCodes.infiniteCandies || ''}`;
+    let text = `// ${game.title} Cheats\n// Zero EXP Gain:\n${game.cheatCodes.zeroExp}\n\n// 1x Reusable Cap Candy (Key Item - Never Consumed):\n${game.cheatCodes.infiniteCandies || ''}`;
     if (game.cheatCodes.repellant) {
-      text += `\n\n// "Repellant" Toggle (No Wild Encounters):\n${game.cheatCodes.repellant}`;
+      text += `\n\n// "Repellant" Key Item Toggle (No Wild Encounters):\n${game.cheatCodes.repellant}`;
     }
     if (game.cheatCodes.portaHeal) {
-      text += `\n\n// "Porta Heal" (Party Full Restore):\n${game.cheatCodes.portaHeal}`;
+      text += `\n\n// "Porta Heal" Key Item (Party Full Restore):\n${game.cheatCodes.portaHeal}`;
     }
     navigator.clipboard.writeText(text);
     setCopiedCode(true);

@@ -176,7 +176,7 @@ bool8 IsRepellantActive(void)
     pros: [
       'Allows adding a "Level Cap NPC" or "Cap Candy Vendor" inside Pokémon Centers without decompiling',
       'Preserves original game code entirely by using free ROM space',
-      'Can give 999 Candies or level up party through dynamic script commands'
+      'Can give 1x Reusable Key Items or level up party through dynamic script commands'
     ],
     cons: [
       'Requires understanding GBA scripting bytecode (`checkflag`, `additem`, `special`)',
@@ -202,7 +202,7 @@ end
 checkflag 0x820 // Boulder Badge
 if 0x0 goto @cap_14
 // ... check higher badges
-additem 0x44 99 // Give Rare / Cap Candies
+additem 0x44 1 // Give 1x Reusable Key Item (Cap Candy)
 msgbox @msg_given MSG_NORMAL
 release
 end`
